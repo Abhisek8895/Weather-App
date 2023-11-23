@@ -3,13 +3,17 @@ import requests
 from timezonefinder import TimezoneFinder
 import pytz
 import datetime
-import url_key
+import os
+from dotenv import load_dotenv
 
 # Converting the data to celcius
 def get_temp_cel():
     try:
+        load_dotenv()
+        url = os.getenv("URL")
+        api = os.getenv("API_KEY")
         city = city_name.get()
-        data = requests.get(url_key.url+city+url_key.api_key).json()
+        data = requests.get(url+city+api).json()
         temp_cel = str(int(data["main"]["temp"] - 273.15))
         temp_c_lab.config(text=(temp_cel, "°"))
         temp_c_lab.place(x=300, y=150)
@@ -20,8 +24,11 @@ def get_temp_cel():
 # Converting the data to fahrenheit
 def get_temp_frn():
     try:
+        load_dotenv()
+        url = os.getenv("URL")
+        api = os.getenv("API_KEY")
         city = city_name.get()
-        data = requests.get(url_key.url+city+url_key.api_key).json()
+        data = requests.get(url+city+api).json()
         temp_f_lab.config(text=(data["main"]["temp"], "°"))
         temp_f_lab.place(x=200, y=150)
         temp_c_lab.place_forget()
@@ -31,8 +38,11 @@ def get_temp_frn():
 # Getting the data
 def get_data():
     try:
+        load_dotenv()
+        url = os.getenv("URL")
+        api = os.getenv("API_KEY")
         city = city_name.get()
-        data = requests.get(url_key.url+city+url_key.api_key).json()
+        data = requests.get(url+city+api).json()
 
         weather_lab.config(text=data["weather"][0]["main"])
 
